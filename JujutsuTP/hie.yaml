@@ -1,0 +1,7 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "JujutsuTP:lib"
+
+    - path: "./test"
+      component: "JujutsuTP:test:JujutsuTP-test"
