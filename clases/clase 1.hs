@@ -1,5 +1,7 @@
 {-
 
+Clase 1:
+
 Haskell: (lenguaje funcional)
 El "=" es una sustitución en una sola dirección. No guarda datos en memoria.
 x = True
