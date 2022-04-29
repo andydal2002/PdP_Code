@@ -1,0 +1,7 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "playground:lib"
+
+    - path: "./test"
+      component: "playground:test:playground-test"

@@ -1,0 +1,7 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "cocinaSuperior:lib"
+
+    - path: "./test"
+      component: "cocinaSuperior:test:cocinaSuperior-test"
