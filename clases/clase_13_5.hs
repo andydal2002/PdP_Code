@@ -1,3 +1,5 @@
+type Number = Float
+
 -- Recursividad
 
 -- Por ejemplo:
@@ -66,3 +68,63 @@ elem' a (x:xs) = a == x || elem' a xs
 enPosicion n [] = error "no hay tantos elementos como me pedis"
 enPosicion 0 (x:_) = x 
 enPosicion n (_:xs) = enPosicion (n-1) xs
+
+
+-- Expresiones Lambda
+
+-- En lugar de crear una funcion para luego utilizarla,
+-- es posible definirla directamente "on the fly".
+-- A esto se lo llama una EXPRESION LAMBDA
+-- Generalmente se usa para algo temporal, de uso único
+
+sumarAsiMismo x = x+x
+f = map (sumarAsiMismo) [1..10]
+f' = map (\x -> x+x) [1..10] 
+
+
+-- Listas por comprension
+
+--  generador  condicion
+--[x|x<-[1..100], x<=4]
+--[x|x<-[1..100], odd x] -- Impares
+--[(1,x)|x<-[1..100], odd x] -- Tuplas con (1, impares)
+--[(x,y)|x<-[1..100], y<-"aeiou", odd x, x<10]
+
+
+-- Funcion auxiliar local (usando where)
+fun1 x = fun2 x + 1 
+    where fun2 x = x*x -- fun2 solo se puede usar en fun1
+
+
+-- Otros usos de where
+
+data Persona = UnaPersona {
+    nombre::String,
+    edad::Number
+}
+
+instance Show Persona where
+    show unaPersona = nombre unaPersona ++ " - " ++ show (edad unaPersona)
+
+instance Eq Persona where
+    (==) persona1 persona2 = nombre persona1 == nombre persona2
+
+
+class Trabajador a where
+    trabajar:: a->Number
+
+instance Trabajador Persona where
+    trabajar persona = edad persona + 10
+
+data Robot = UnRobot{
+    identificador::Number
+}
+
+instance Trabajador Robot where
+    trabajar robot = identificador robot + 100
+
+juan = UnaPersona "juan" 22
+r2d2 = UnRobot 123
+
+--instance Trabajador Number where
+--    trabajar num = num*2
