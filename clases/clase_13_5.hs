@@ -49,3 +49,20 @@ foldr' _ semilla [] = semilla
 -- foldl1: no requiere una semilla, la "semilla" es el primer elemento de la lista
 
 
+-- Ejemplos de recursividad
+take' 0 _ = []
+take' _ [] = []
+take' n (x:xs) = x:take' (n-1) xs 
+
+encontrarUno :: (a -> Bool) -> [a] -> a
+encontrarUno funcion [] = error "no esta el elemento"
+encontrarUno funcion (cabeza:cola)
+    | funcion cabeza = cabeza
+    | otherwise = encontrarUno funcion cola
+
+elem' a [] = False
+elem' a (x:xs) = a == x || elem' a xs
+
+enPosicion n [] = error "no hay tantos elementos como me pedis"
+enPosicion 0 (x:_) = x 
+enPosicion n (_:xs) = enPosicion (n-1) xs
