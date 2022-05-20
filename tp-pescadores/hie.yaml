@@ -1,0 +1,7 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "tp-pescadores:lib"
+
+    - path: "./test"
+      component: "tp-pescadores:test:tp-pescadores-test"
