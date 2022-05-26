@@ -1,0 +1,7 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "TorreDeBabelTP:lib"
+
+    - path: "./test"
+      component: "TorreDeBabelTP:test:TorreDeBabelTP-test"
