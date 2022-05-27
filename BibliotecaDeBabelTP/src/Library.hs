@@ -13,8 +13,6 @@ data Libro = Libro {
     generos :: [String]
 } deriving (Show, Eq)
 
---type Biblioteca = [Libro]
-
 data Biblioteca = Biblioteca {
     libros :: [Libro],
     criterio :: Criterio
@@ -48,7 +46,7 @@ esSimboloValido simbolo = simbolo == 'a' || simbolo == 'b' || simbolo == 'c' || 
      || simbolo == '.' || simbolo == ',' || simbolo == ' '
 -}
 
-simbolosValidos = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '.', ',', ' ']
+simbolosValidos = ['a'..'z'] ++ ['.', ',', ' ']
 
 esSimboloValido :: Char -> Bool
 esSimboloValido simbolo = elem simbolo simbolosValidos
@@ -104,7 +102,7 @@ l4 = Libro "Andy" 5 "xd" ["fantasia"]
 
 -- Bibliotecas selectivas
 
-type Criterio = (Libro->Bool)
+type Criterio = Libro -> Bool
 
 berlin :: Criterio
 berlin libro = any (=="policial") (generos libro) 
@@ -132,7 +130,42 @@ biblioteca3 = Biblioteca [l3] paris
 
 -- Biblioteca infinita?
 
--- NO TENGO NI IDEA DE COMO GENERAR ESTA BIBLIOTECA XD
+-- Tengo que crear una funcion que calcule todas las variaciones con repeticion de "n" (cant letras del alfabeto) en "p" (tamanio de cadenas)
 
---bibliotecaDeBabel = generarBibliotecaDeBabel
---generarBibliotecaDeBabel = 
+variacionesConRep :: [a] -> Number -> [[a]]
+variacionesConRep [] _ = [[]]
+variacionesConRep _ 0 = [[]] 
+variacionesConRep lista n = [z:ys | z <- lista, ys <- variacionesConRep lista (n-1) ]
+
+-- Literal
+
+cantSimbolosTotalesPorLibro = 410 * 40 * 80 -- Paginas * renglonesPorPagina * simbolosPorRenglon = 1312000
+bibliotecaDeBabel = Biblioteca librosDeBabel esLibroValido
+
+-- La cantidad de libros de babel son: 29 simbolos ^ 1312000 simbolos por libro, osea = 29^1312000 libros totales
+librosDeBabel = map generarLibrosDeBabel [0..(29^1312000 - 1)]
+-- De todos los textos posibles, elijo el de la posicion "n"
+-- La cantidad de textos posibles es: 29^1312000
+generarLibrosDeBabel n = Libro "Babel" 410 ((variacionesConRep simbolosValidos cantSimbolosTotalesPorLibro ) !! n ) ["desconocido"] 
+
+
+-- Simplificada
+-- Tiene un solo simbolo por pagina, 410 pags. Es decir, 410 simbolos por libro.
+
+bibliotecaSimplificada = Biblioteca librosSimplificados esLibroValido
+
+librosSimplificados = map generarLibrosSimplificados [0..(29^410 - 1)]
+-- Cantidad de libros = 29^410
+generarLibrosSimplificados n = Libro "Simp" 410 ((variacionesConRep simbolosValidos (29^410) ) !! n ) ["desconocido"] 
+
+
+-- Personalizada
+
+sinCriterio :: Criterio
+sinCriterio _ = True
+
+simbolosPers1 = "ab"
+bibliotecaPers1 = Biblioteca (librosPers simbolosPers1) sinCriterio
+-- Cantidad de libros de Pers1 = 2^1312000 
+librosPers simbolosPers = map (generarLibrosPers simbolosPers) [0..((length simbolosPers)^1312000 - 1)]
+generarLibrosPers simbolosPers n = Libro "Pers" 410 ((variacionesConRep simbolosPers ((length simbolosPers)^1312000) ) !! n ) ["desconocido"] 
