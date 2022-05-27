@@ -16,7 +16,7 @@ data Libro = Libro {
 data Biblioteca = Biblioteca {
     libros :: [Libro],
     criterio :: Criterio
-}
+} deriving Show
 
 -- 1) Estadísticas
 
@@ -156,7 +156,7 @@ bibliotecaSimplificada = Biblioteca librosSimplificados esLibroValido
 
 librosSimplificados = map generarLibrosSimplificados [0..(29^410 - 1)]
 -- Cantidad de libros = 29^410
-generarLibrosSimplificados n = Libro "Simp" 410 ((variacionesConRep simbolosValidos (29^410) ) !! n ) ["desconocido"] 
+generarLibrosSimplificados n = Libro "Simp" 410 ((variacionesConRep simbolosValidos 410 ) !! n ) ["desconocido"] 
 
 
 -- Personalizada
@@ -167,5 +167,6 @@ sinCriterio _ = True
 simbolosPers1 = "ab"
 bibliotecaPers1 = Biblioteca (librosPers simbolosPers1) sinCriterio
 -- Cantidad de libros de Pers1 = 2^1312000 
+-- Cantidad de libros de Pers = (cantidad de simbolos)^1312000 
 librosPers simbolosPers = map (generarLibrosPers simbolosPers) [0..((length simbolosPers)^1312000 - 1)]
-generarLibrosPers simbolosPers n = Libro "Pers" 410 ((variacionesConRep simbolosPers ((length simbolosPers)^1312000) ) !! n ) ["desconocido"] 
+generarLibrosPers simbolosPers n = Libro "Pers" 410 ((variacionesConRep simbolosPers 1312000) !! n ) ["desconocido"] 
