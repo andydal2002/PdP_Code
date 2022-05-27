@@ -151,11 +151,12 @@ generarLibrosDeBabel n = Libro "Babel" 410 ((variacionesConRep simbolosValidos c
 
 -- Simplificada
 -- Tiene un solo simbolo por pagina, 410 pags. Es decir, 410 simbolos por libro.
+-- Cantidad de libros = 29^410
 
 bibliotecaSimplificada = Biblioteca librosSimplificados esLibroValido
 
-librosSimplificados = map generarLibrosSimplificados [0..(29^410 - 1)]
--- Cantidad de libros = 29^410
+librosSimplificados = map generarLibrosSimplificados [0..(29^410 - 1)] -- Solo guarda el primer libro (de posicion 0)
+
 generarLibrosSimplificados n = Libro "Simp" 410 ((variacionesConRep simbolosValidos 410 ) !! n ) ["desconocido"] 
 
 
@@ -168,5 +169,5 @@ simbolosPers1 = "ab"
 bibliotecaPers1 = Biblioteca (librosPers simbolosPers1) sinCriterio
 -- Cantidad de libros de Pers1 = 2^1312000 
 -- Cantidad de libros de Pers = (cantidad de simbolos)^1312000 
-librosPers simbolosPers = map (generarLibrosPers simbolosPers) [0..((length simbolosPers)^1312000 - 1)]
+librosPers simbolosPers = map (generarLibrosPers simbolosPers) [0..((length simbolosPers)^1312000 - 1)] -- Solo guarda el primer libro (de posicion 0)
 generarLibrosPers simbolosPers n = Libro "Pers" 410 ((variacionesConRep simbolosPers 1312000) !! n ) ["desconocido"] 
