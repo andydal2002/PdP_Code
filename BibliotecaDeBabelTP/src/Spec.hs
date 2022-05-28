@@ -8,4 +8,21 @@ correrTests = hspec $ do
   describe "Test de ejemplo" $ do
     it "El pdepreludat se instaló correctamente" $ do
       doble 1 `shouldBe` 2
+  
+  describe "Busqueda" $ do
+    it "buscarTextoEnTexto" $ do
+      buscarTextoEnTexto "hola" "abcd ho hola chau" `shouldBe` True
+      buscarTextoEnTexto "hola" "chau adios" `shouldBe` False
+      buscarTextoEnTexto "hola" [] `shouldBe` False
+    
+    it "buscarTextoEnBiblioteca" $ do
+      buscarTextoEnBiblioteca "mama" biblioteca4 `shouldBe` 
+        [Libro {titulo = "A", cantPags = 10, texto = "hola mama", generos = ["policial","terror"]},
+        Libro {titulo = "C", cantPags = 5, texto = "mimamamemima", generos = ["romantico"]}]
+      buscarTextoEnBiblioteca "casa" biblioteca4 `shouldBe` []
+    
+    it "primerLibroEncontrado" $ do
+      primerLibroEncontrado "mama" biblioteca4 `shouldBe` Libro {titulo = "A", cantPags = 10, texto = "hola mama", generos = ["policial","terror"]}
 
+    it "cantLibrosEncontrados" $ do
+      cantLibrosEncontrados "mama" biblioteca4 `shouldBe` 2
