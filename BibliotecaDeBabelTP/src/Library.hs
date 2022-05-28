@@ -126,7 +126,7 @@ aceptaLibro libro biblioteca = (criterio biblioteca) libro
 biblioteca1 = Biblioteca [l1,l2] berlin
 biblioteca2 = Biblioteca [l1] turdera
 biblioteca3 = Biblioteca [l3] paris
-
+biblioteca4 = Biblioteca [l1,l2,l3,l4] sinCriterio
 
 -- Biblioteca infinita?
 
@@ -171,3 +171,20 @@ bibliotecaPers1 = Biblioteca (librosPers simbolosPers1) sinCriterio
 -- Cantidad de libros de Pers = (cantidad de simbolos)^1312000 
 librosPers simbolosPers = map (generarLibrosPers simbolosPers) [0..((length simbolosPers)^1312000 - 1)] -- Solo guarda el primer libro (de posicion 0)
 generarLibrosPers simbolosPers n = Libro "Pers" 410 ((variacionesConRep simbolosPers 1312000) !! n ) ["desconocido"] 
+
+-- Busqueda
+
+-- Dados dos textos, se fija si el primero está dentro del segundo
+buscarTextoEnTexto :: String -> String -> Bool
+buscarTextoEnTexto text [] = False
+buscarTextoEnTexto text (x:xs) = head text == x && tail text == take ((length . tail) text) xs || buscarTextoEnTexto text xs
+
+-- Devuelve todos los libros que contengan el texto
+buscarTextoEnBiblioteca :: String -> Biblioteca -> [Libro]
+buscarTextoEnBiblioteca text biblioteca = filter ((buscarTextoEnTexto text) . texto) (libros biblioteca)
+
+primerLibroEncontrado :: String -> Biblioteca -> Libro
+primerLibroEncontrado text biblioteca = head (buscarTextoEnBiblioteca text biblioteca)
+
+cantLibrosEncontrados :: String -> Biblioteca -> Number
+cantLibrosEncontrados text biblioteca = length (buscarTextoEnBiblioteca text biblioteca)
