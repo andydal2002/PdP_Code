@@ -16,13 +16,11 @@ correrTests = hspec $ do
       buscarTextoEnTexto "hola" [] `shouldBe` False
     
     it "buscarTextoEnBiblioteca" $ do
-      buscarTextoEnBiblioteca "mama" biblioteca4 `shouldBe` 
-        [Libro {titulo = "A", cantPags = 10, texto = "hola mama", generos = ["policial","terror"]},
-        Libro {titulo = "C", cantPags = 5, texto = "mimamamemima", generos = ["romantico"]}]
+      buscarTextoEnBiblioteca "mama" biblioteca4 `shouldBe` [l1,l3]
       buscarTextoEnBiblioteca "casa" biblioteca4 `shouldBe` []
     
     it "primerLibroEncontrado" $ do
-      primerLibroEncontrado "mama" biblioteca4 `shouldBe` Libro {titulo = "A", cantPags = 10, texto = "hola mama", generos = ["policial","terror"]}
+      primerLibroEncontrado "mama" biblioteca4 `shouldBe` l1
 
     it "cantLibrosEncontrados" $ do
       cantLibrosEncontrados "mama" biblioteca4 `shouldBe` 2
