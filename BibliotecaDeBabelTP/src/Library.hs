@@ -143,7 +143,7 @@ cantSimbolosTotalesPorLibro = 410 * 40 * 80 -- Paginas * renglonesPorPagina * si
 bibliotecaDeBabel = Biblioteca librosDeBabel esLibroValido
 
 -- La cantidad de libros de babel son: 29 simbolos ^ 1312000 simbolos por libro, osea = 29^1312000 libros totales
-librosDeBabel = map generarLibrosDeBabel [0..(29^1312000 - 1)]
+librosDeBabel = map generarLibrosDeBabel [0..(29^1312000 - 1)] -- Solo guarda el primer libro (de posicion 0)
 -- De todos los textos posibles, elijo el de la posicion "n"
 -- La cantidad de textos posibles es: 29^1312000
 generarLibrosDeBabel n = Libro "Babel" 410 ((variacionesConRep simbolosValidos cantSimbolosTotalesPorLibro ) !! n ) ["desconocido"] 
