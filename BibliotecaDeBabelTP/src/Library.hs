@@ -164,6 +164,11 @@ librosSimplificados = map generarLibroDadoUnTexto listaDeTodosLosTextosPosiblesS
 
 listaDeTodosLosTextosPosiblesSimp = variacionesConRep simbolosValidos 410
 
+-- Super Simplificada 
+
+bibliotecaSS = Biblioteca librosSS esLibroValido
+librosSS = map generarLibroDadoUnTexto textosSS
+textosSS = variacionesConRep simbolosValidos 5
 
 -- Personalizada
 
