@@ -140,24 +140,29 @@ variacionesConRep lista n = [z:ys | z <- lista, ys <- variacionesConRep lista (n
 -- Literal
 
 cantSimbolosTotalesPorLibro = 410 * 40 * 80 -- Paginas * renglonesPorPagina * simbolosPorRenglon = 1312000
-bibliotecaDeBabel = Biblioteca librosDeBabel esLibroValido
 
 -- La cantidad de libros de babel son: 29 simbolos ^ 1312000 simbolos por libro, osea = 29^1312000 libros totales
-librosDeBabel = map generarLibrosDeBabel [0..(29^1312000 - 1)] -- Solo guarda el primer libro (de posicion 0)
--- De todos los textos posibles, elijo el de la posicion "n"
 -- La cantidad de textos posibles es: 29^1312000
-generarLibrosDeBabel n = Libro "Babel" 410 ((variacionesConRep simbolosValidos cantSimbolosTotalesPorLibro ) !! n ) ["desconocido"] 
+
+listaDeTodosLosTextosPosiblesDeBabel = variacionesConRep simbolosValidos cantSimbolosTotalesPorLibro
+
+generarLibroDadoUnTexto :: String -> Libro
+generarLibroDadoUnTexto texto = Libro "Babel" 410 texto ["desconocido"]
+
+librosDeBabel = map generarLibroDadoUnTexto listaDeTodosLosTextosPosiblesDeBabel 
+bibliotecaDeBabel = Biblioteca librosDeBabel esLibroValido
 
 
 -- Simplificada
+
 -- Tiene un solo simbolo por pagina, 410 pags. Es decir, 410 simbolos por libro.
 -- Cantidad de libros = 29^410
 
 bibliotecaSimplificada = Biblioteca librosSimplificados esLibroValido
 
-librosSimplificados = map generarLibrosSimplificados [0..(29^410 - 1)] -- Solo guarda el primer libro (de posicion 0)
+librosSimplificados = map generarLibroDadoUnTexto listaDeTodosLosTextosPosiblesSimp
 
-generarLibrosSimplificados n = Libro "Simp" 410 ((variacionesConRep simbolosValidos 410 ) !! n ) ["desconocido"] 
+listaDeTodosLosTextosPosiblesSimp = variacionesConRep simbolosValidos 410
 
 
 -- Personalizada
@@ -167,10 +172,13 @@ sinCriterio _ = True
 
 simbolosPers1 = "ab"
 bibliotecaPers1 = Biblioteca (librosPers simbolosPers1) sinCriterio
+
 -- Cantidad de libros de Pers1 = 2^1312000 
 -- Cantidad de libros de Pers = (cantidad de simbolos)^1312000 
-librosPers simbolosPers = map (generarLibrosPers simbolosPers) [0..((length simbolosPers)^1312000 - 1)] -- Solo guarda el primer libro (de posicion 0)
-generarLibrosPers simbolosPers n = Libro "Pers" 410 ((variacionesConRep simbolosPers 1312000) !! n ) ["desconocido"] 
+
+librosPers simbolosPers = map generarLibroDadoUnTexto (listaDeTodosLosTextosPosiblesPers simbolosPers)
+
+listaDeTodosLosTextosPosiblesPers simbolosPers = variacionesConRep simbolosPers cantSimbolosTotalesPorLibro
 
 -- Busqueda
 
