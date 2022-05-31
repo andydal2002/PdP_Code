@@ -201,3 +201,14 @@ primerLibroEncontrado text biblioteca = head (buscarTextoEnBiblioteca text bibli
 
 cantLibrosEncontrados :: String -> Biblioteca -> Number
 cantLibrosEncontrados text biblioteca = length (buscarTextoEnBiblioteca text biblioteca)
+
+-- Mi propia version de VariacionesConRep
+-- Al final quedo exactamente igual a la otra funcion, pero me sirvio para entender el proceso logico detras
+combinacion :: [a] -> Number -> [[a]]
+-- combinacion lista 1 = aislarElementosLista lista
+combinacion _ 0 = [[]]
+-- combinacion lista 1 = [x:[] | x<-lista] 
+combinacion lista n = [x:ys | x<-lista , ys <- combinacion lista (n-1)]
+
+--aislarElementosLista [] = []
+--aislarElementosLista (x:xs) = [x] : aislarElementosLista xs
