@@ -1,0 +1,7 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "supremaCorteTP:lib"
+
+    - path: "./test"
+      component: "supremaCorteTP:test:supremaCorteTP-test"
