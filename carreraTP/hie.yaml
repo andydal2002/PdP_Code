@@ -1,0 +1,7 @@
+cradle:
+  stack:
+    - path: "./src"
+      component: "carreraTP:lib"
+
+    - path: "./test"
+      component: "carreraTP:test:carreraTP-test"
