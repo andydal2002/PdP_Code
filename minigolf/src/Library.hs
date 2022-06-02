@@ -53,7 +53,7 @@ golpe :: Jugador -> Palo -> Tiro
 golpe persona palo = palo (habilidad persona)
 
 -- 3
-
+{-
 type Obstaculo = Tiro -> Tiro
 
 tunelConRampa :: Obstaculo
@@ -104,4 +104,32 @@ paloMasUtil persona obstaculos palos = buscarQuePaloHizoUnTiro persona palos (me
 padresPerdedores :: [(Jugador, Puntos)] -> [String] 
 padresPerdedores jugadores = map (\(jugador, puntos) -> padre jugador) (filter ((<maximoPuntaje) . snd) jugadores)
     where maximoPuntaje = maximum (map snd jugadores)
+-}
 
+-- ALTERNATIVA DE OBSTACULO CON DATA (incompleto)
+
+data Obstaculo = Obstaculo{
+  condicion :: Condicion,
+  efecto :: Efecto
+} deriving (Show, Eq)
+
+type Condicion = Tiro -> Bool
+type Efecto = Tiro -> Tiro
+
+tiroDetenido = UnTiro 0 0 0
+
+tunelConRampa = Obstaculo {
+  condicion = \(UnTiro velocidad presicion altura) -> presicion > 90 && altura == 0,
+  efecto = \tiro -> UnTiro (velocidad tiro * 2) 100 0
+}
+
+
+laguna largoLaguna = Obstaculo {
+  condicion = \(UnTiro velocidad presicion altura) -> velocidad > 80 && between 1 altura 5,
+  efecto = \(UnTiro velocidad presicion altura) -> UnTiro velocidad presicion (div altura largoLaguna)
+}
+
+hoyo = Obstaculo{
+  condicion = \(UnTiro velocidad presicion altura) -> between 5 velocidad 20 && altura == 0 && presicion > 98,
+  efecto =  \tiro -> tiroDetenido
+}
