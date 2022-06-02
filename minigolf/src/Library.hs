@@ -98,13 +98,13 @@ buscarQuePaloHizoUnTiro persona palos tiro = head ((filter ((==tiro) . golpe per
 
 paloMasUtil :: Jugador -> [Obstaculo] -> [Palo] -> Palo
 paloMasUtil persona obstaculos palos = buscarQuePaloHizoUnTiro persona palos (mejorTiro persona obstaculos palos)
-
+-}
 -- 5
 
 padresPerdedores :: [(Jugador, Puntos)] -> [String] 
 padresPerdedores jugadores = map (\(jugador, puntos) -> padre jugador) (filter ((<maximoPuntaje) . snd) jugadores)
     where maximoPuntaje = maximum (map snd jugadores)
--}
+
 
 -- ALTERNATIVA DE OBSTACULO CON DATA (incompleto)
 
@@ -133,3 +133,18 @@ hoyo = Obstaculo{
   condicion = \(UnTiro velocidad presicion altura) -> between 5 velocidad 20 && altura == 0 && presicion > 98,
   efecto =  \tiro -> tiroDetenido
 }
+
+intentoPasar :: Obstaculo -> Tiro -> Tiro
+intentoPasar obstaculo tiro
+  | (condicion obstaculo) tiro = (efecto obstaculo) tiro
+  | otherwise = tiroDetenido
+
+palosUtiles :: Jugador -> Obstaculo -> [Palo] -> [Palo]
+palosUtiles persona obstaculo palos = filter ((condicion obstaculo) . (golpe persona)) palos
+
+cantObstaculosSuperados :: [Obstaculo] -> Tiro -> Number
+cantObstaculosSuperados obstaculos tiro = length (takeWhile (\obstaculo -> (condicion obstaculo) tiro) obstaculos)
+
+paloMasUtil :: Jugador -> [Obstaculo] -> [Palo] -> Palo
+paloMasUtil persona obstaculos palos = head (filter ((==mejorTiro) . golpe persona) palos)
+  where mejorTiro = maximoSegun (cantObstaculosSuperados obstaculos) (map (golpe persona) palos)
